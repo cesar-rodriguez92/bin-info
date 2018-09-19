@@ -41,7 +41,7 @@ public class TokenServiceImpl implements TokenService {
 
 			Map<String, Object> responseValidate = integrationService.validateToken(apiKey);
 			if (responseValidate == null) {
-				throw new Exception();
+				return new ResponseEntity(tokenResponse, HttpStatus.UNAUTHORIZED);
 			}
 			log.info("Repsonse en tokenService: " + responseValidate);
 
@@ -65,7 +65,7 @@ public class TokenServiceImpl implements TokenService {
 		} catch (Exception e) {
 			log.error("Error en getBinInfoService: ", e);
 			tokenResponse = new Token(Constants.ERROR, null, null);
-			return new ResponseEntity(tokenResponse, HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity(tokenResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 		return new ResponseEntity(tokenResponse, HttpStatus.OK);
