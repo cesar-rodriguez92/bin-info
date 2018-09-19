@@ -3,9 +3,10 @@ package com.crodriguezt.dev.bininfo.token.service;
 import java.util.Map;
 
 import com.crodriguezt.dev.bininfo.token.json.Token;
+import org.springframework.http.ResponseEntity;
 
 public interface TokenService {
 
-	Token getTokenService(Map<String, Object> data, String apiKey);
+	ResponseEntity getTokenService(Map<String, Object> data, String apiKey);
 
 }

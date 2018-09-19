@@ -7,6 +7,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.crodriguezt.dev.bininfo.token.common.Constants;
@@ -24,10 +26,10 @@ public class TokenServiceImpl implements TokenService {
 	private IntegrationService integrationService;
 
 	@Override
-	public Token getTokenService(Map<String, Object> data, String apiKey) {
+	public ResponseEntity getTokenService(Map<String, Object> data, String apiKey) {
 
 		Token tokenResponse = null;
-
+		ResponseEntity response = null;
 		try {
 			String pan = (String) data.get(Constants.PAN);
 			int expYear = (int) data.get(Constants.EXP_YEAR);
@@ -63,9 +65,10 @@ public class TokenServiceImpl implements TokenService {
 		} catch (Exception e) {
 			log.error("Error en getBinInfoService: ", e);
 			tokenResponse = new Token(Constants.ERROR, null, null);
+			return new ResponseEntity(tokenResponse, HttpStatus.UNAUTHORIZED);
 		}
 
-		return tokenResponse;
+		return new ResponseEntity(tokenResponse, HttpStatus.OK);
 	}
 
 }

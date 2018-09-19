@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,13 +30,15 @@ public class TokenController {
 	Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Token getToken(@RequestBody Map<String, Object> data, HttpServletRequest httpServletRequest) {
+	public ResponseEntity<Token> getToken(@RequestBody Map<String, Object> data, HttpServletRequest httpServletRequest) {
+
 
 		String apiKey = httpServletRequest.getHeader(Constants.X_API_KEY);
 		log.info("Ini getToken: " + data);
-		Token token = tokenService.getTokenService(data, apiKey);
-		log.info("Response getToken: " + token);
-		return token;
+		ResponseEntity response = tokenService.getTokenService(data, apiKey);
+
+				log.info("Response getToken: " + response);
+		return response;
 	}
 
 }
