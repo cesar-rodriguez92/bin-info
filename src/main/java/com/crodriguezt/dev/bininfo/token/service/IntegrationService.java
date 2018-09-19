@@ -6,4 +6,6 @@ public interface IntegrationService {
 
 	Map<String, Object> getBinInfo(String bin);
 
+	Map<String, Object> validateToken(String apiKey);
+
 }

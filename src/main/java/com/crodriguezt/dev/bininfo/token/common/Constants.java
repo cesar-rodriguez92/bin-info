@@ -15,4 +15,8 @@ public class Constants {
 	public static final String SCHEME = "scheme";
 	public static final String TKN_LIVE = "tkn_live_";
 
+
+	public static final String X_API_KEY = "x-api-key";
+	public static final String VALID = "valid";
+
 }

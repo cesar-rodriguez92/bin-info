@@ -27,7 +27,7 @@ public class BinInfoApplicationTests extends TestCase {
 		data.put(Constants.PAN, "4444333322221111");
 		data.put(Constants.EXP_YEAR, 2020);
 		data.put(Constants.EXP_MONTH, 10);
-		assertNotNull(tokenService.getTokenService(data));
+		assertNotNull(tokenService.getTokenService(data,"1023456"));
 	}
 
 	@Test
@@ -37,7 +37,7 @@ public class BinInfoApplicationTests extends TestCase {
 		data.put(Constants.PAN, "4111111111111111");
 		data.put(Constants.EXP_YEAR, 2020);
 		data.put(Constants.EXP_MONTH, 10);
-		assertEquals(scheme, tokenService.getTokenService(data).getBrand());
+		assertEquals(scheme, tokenService.getTokenService(data,"1023456").getBrand());
 	}
 
 	@Test
@@ -47,7 +47,7 @@ public class BinInfoApplicationTests extends TestCase {
 		data.put(Constants.PAN, "5555555555554444");
 		data.put(Constants.EXP_YEAR, 2020);
 		data.put(Constants.EXP_MONTH, 10);
-		assertEquals(scheme, tokenService.getTokenService(data).getBrand());
+		assertEquals(scheme, tokenService.getTokenService(data,"1023456").getBrand());
 	}
 
 }

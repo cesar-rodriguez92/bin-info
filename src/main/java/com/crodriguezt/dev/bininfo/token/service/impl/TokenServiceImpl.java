@@ -24,7 +24,7 @@ public class TokenServiceImpl implements TokenService {
 	private IntegrationService integrationService;
 
 	@Override
-	public Token getTokenService(Map<String, Object> data) {
+	public Token getTokenService(Map<String, Object> data, String apiKey) {
 
 		Token tokenResponse = null;
 
@@ -37,16 +37,29 @@ public class TokenServiceImpl implements TokenService {
 				throw new Exception();
 			}
 
-			Map<String, Object> responseIntegration = integrationService.getBinInfo(bin);
-			if (responseIntegration == null) {
+			Map<String, Object> responseValidate = integrationService.validateToken(apiKey);
+			if (responseValidate == null) {
+				throw new Exception();
+			}
+			log.info("Repsonse en tokenService: " + responseValidate);
+
+			boolean valid = (boolean) responseValidate.get(Constants.VALID);
+			if (valid) {
+				Map<String, Object> responseIntegration = integrationService.getBinInfo(bin);
+				if (responseIntegration == null) {
+					throw new Exception();
+				}
+
+				String scheme = (String) responseIntegration.get(Constants.SCHEME);
+				SimpleDateFormat sdf = new SimpleDateFormat(Constants.TIME_FORMAT);
+				String creationDate = sdf.format(new Date());
+				String tkn_live = TokenUtil.generateTokenLive(pan, expYear, expMonth);
+				tokenResponse = new Token(tkn_live, scheme, creationDate);
+			} else{
 				throw new Exception();
 			}
 
-			String scheme = (String) responseIntegration.get(Constants.SCHEME);
-			SimpleDateFormat sdf = new SimpleDateFormat(Constants.TIME_FORMAT);
-			String creationDate = sdf.format(new Date());
-			String tkn_live = TokenUtil.generateTokenLive(pan, expYear, expMonth);
-			tokenResponse = new Token(tkn_live, scheme, creationDate);
+
 		} catch (Exception e) {
 			log.error("Error en getBinInfoService: ", e);
 			tokenResponse = new Token(Constants.ERROR, null, null);
