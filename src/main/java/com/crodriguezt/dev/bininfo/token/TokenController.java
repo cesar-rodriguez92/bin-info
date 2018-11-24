@@ -32,7 +32,8 @@ public class TokenController {
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Token> getToken(@RequestBody Map<String, Object> data, HttpServletRequest httpServletRequest) {
 
-
+		log.info("**************************************");
+		log.info("Inicializando obtener token");
 		String apiKey = httpServletRequest.getHeader(Constants.X_API_KEY);
 		log.info("Ini getToken: " + data);
 		ResponseEntity response = tokenService.getTokenService(data, apiKey);
